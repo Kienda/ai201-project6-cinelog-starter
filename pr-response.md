@@ -1,0 +1,62 @@
+# PR Response Doc — CineLog Watchlist Feature
+
+## AI Usage
+
+<!-- Fill in at the end — explain specifically how AI supported orientation,
+review interpretation, implementation, testing, and argument stress-testing. -->
+
+## Comment 1 — Rename
+
+**What I did:**
+
+I renamed `save_to_watchlist()` to `add_to_watchlist()` in
+`services/watchlist_service.py` so it follows CineLog's `verb_to_noun` service
+naming convention. I also updated the import and call in
+`routes/watchlist/watchlist.py`.
+
+**How I verified:**
+
+I used a project-wide search for `save_to_watchlist` before the change to find
+the definition and its one call site. After renaming both, I repeated the search
+to confirm no references to the old name remained, then ran the full test suite.
+
+## Comment 2 — Deduplication
+
+**What I did:**
+
+**How I verified:**
+
+## Comment 3 — Missing test
+
+**What I did:**
+
+**How I verified:**
+
+## Comment 4 — Default visibility
+
+**My position:**
+
+**Reasoning:**
+
+**Tradeoff acknowledged:**
+
+## Comment 5 — Sort order
+
+**My position:**
+
+**Reasoning:**
+
+**Engagement with reviewer's point:**
+
+## Comment 6 — Rebase
+
+**What conflicted:**
+
+**How I resolved it:**
+
+**How I verified no conflict remains:**
+
+## PR Description
+
+<!-- Fill in at the end: a 2–3 sentence feature overview, design decisions,
+and end-to-end manual testing steps. -->
