@@ -41,7 +41,18 @@ for regressions.
 
 **What I did:**
 
+I created `tests/test_watchlist.py` and added
+`test_add_to_watchlist_nonexistent_film_raises()`. It confirms that the service
+raises `FilmNotFoundError` before attempting to create a database entry when the
+film does not exist.
+
 **How I verified:**
+
+I modeled the fixtures, application-context boundary, fake ID, and
+`pytest.raises` assertion on
+`test_add_to_collection_nonexistent_film_raises()` in
+`tests/test_collection.py`. I ran the watchlist test file by itself and then the
+full suite.
 
 ## Comment 4 — Default visibility
 
