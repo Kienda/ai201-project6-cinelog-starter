@@ -117,9 +117,27 @@ alphabetical ordering remains a reasonable future caller-selected option.
 
 **What conflicted:**
 
+I fetched the fork and ran `git rebase origin/main`. The first conflict was an
+add/add conflict in `.gitignore` because both branches had independently added
+the file. The substantive conflict was in `models.py`: updated `main` had
+migrated `Film.id` and `CollectionEntry.film_id` to UUID strings, while the
+watchlist feature still defined `WatchlistEntry.film_id` as an integer.
+
 **How I resolved it:**
 
+For `.gitignore`, I kept `main`'s complete generated-file rules, including
+`.pytest_cache/`. For `models.py`, I retained `main`'s UUID definitions and
+restored `WatchlistEntry` with `film_id` as `db.String(36)` referencing
+`film.id`. I also changed the watchlist service documentation and route example
+from integer IDs to UUID strings and replaced the test's fake integer with a
+well-formed nonexistent UUID.
+
 **How I verified no conflict remains:**
+
+I searched the project for conflict markers and remaining integer `film_id`
+references, then ran `pytest tests/ -v`; all five tests passed. I confirmed that
+`origin/main` is an ancestor of the feature branch and that
+`git log --merges origin/main..HEAD` returns no feature-branch merge commits.
 
 ## PR Description
 
