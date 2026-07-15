@@ -6,9 +6,11 @@ I used AI to help orient me to the unfamiliar repository, locate the original
 review after my fork omitted the feature branch, and explain how the existing
 collection service and tests establish CineLog's patterns. I verified those
 explanations against the source code. I also used AI as a devil's advocate for
-Comments 4 and 5. That review prompted me to address the reduced discovery of a
-private default and the weaker title lookup of newest-first ordering explicitly,
-rather than presenting either choice as cost-free.
+Comments 4 and 5 by asking what a careful reviewer would challenge and which
+tradeoffs my draft omitted. AI raised reduced community discovery under a
+private default and harder known-title lookup under newest-first ordering. I
+kept my original positions, but revised my response to acknowledge those costs
+and explain why consent and recent activity still take priority in CineLog.
 
 ## Comment 1 — Rename
 
@@ -111,7 +113,9 @@ Alphabetical order does have an advantage: it is easier to scan for a known
 title in a long list. I do not think that lookup case should control the default,
 because search or a future optional sort parameter can serve it without hiding
 recent activity. Newest-first is therefore the better default, while
-alphabetical ordering remains a reasonable future caller-selected option.
+alphabetical ordering remains a reasonable future caller-selected option. I
+verified this behavior with an additional test that creates entries at two
+different times and asserts that the newer film appears first.
 
 ## Comment 6 — Rebase
 
@@ -141,5 +145,42 @@ references, then ran `pytest tests/ -v`; all five tests passed. I confirmed that
 
 ## PR Description
 
-<!-- Fill in at the end: a 2–3 sentence feature overview, design decisions,
-and end-to-end manual testing steps. -->
+### What this feature does
+
+This PR adds a separate watchlist for films a user intends to watch, including
+service logic and `GET /watchlist/<user_id>` and
+`POST /watchlist/<user_id>/add` endpoints. Adding a missing film fails with a
+domain error, while adding the same film twice returns HTTP 409 instead of
+creating a duplicate.
+
+### Design decisions
+
+Watchlist entries default to private so sharing is intentional; visibility is a
+simple public/private choice rather than a viewer-specific permission system.
+Watchlists are returned by date added, newest first, to prioritize recent
+viewing intentions and remain consistent with CineLog's collection ordering.
+
+### Manual testing
+
+1. Create and activate a virtual environment, then run
+   `pip install -r requirements.txt`.
+2. Run `python app.py` and leave the API running at `http://127.0.0.1:5000`.
+3. In a separate Python shell using the same project, enter an application
+   context, create one `User` and two `Film` records, commit them, and note their
+   UUIDs.
+4. Send `POST /watchlist/<user_uuid>/add` with JSON
+   `{ "film_id": "<first_film_uuid>" }`; confirm HTTP 201 and
+   `"public": false` in the returned entry.
+5. Repeat the same request; confirm HTTP 409 and that no duplicate is created.
+6. Add the second film, then send `GET /watchlist/<user_uuid>`; confirm both
+   films are returned with the most recently added film first.
+7. Run `pytest tests/ -v`; confirm the full suite passes.
+
+## Git History Evidence
+
+Run `git log --oneline origin/main..feature/watchlist` after the final history
+rewrite and include the resulting terminal screenshot below before submission.
+
+<!-- Add the screenshot as docs/git-log.png, then replace this comment with:
+![Conventional commit history with no merge commits](docs/git-log.png)
+-->
