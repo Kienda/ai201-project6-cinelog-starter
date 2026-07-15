@@ -24,7 +24,18 @@ to confirm no references to the old name remained, then ran the full test suite.
 
 **What I did:**
 
+I followed `add_to_collection()`'s existing pattern: query `WatchlistEntry` by
+both `user_id` and `film_id` before inserting, and raise a new
+`AlreadyInWatchlistError` when that pair already exists. The watchlist route
+catches that domain error and returns HTTP 409, matching the collection API's
+conflict behavior.
+
 **How I verified:**
+
+I added the same film for the same user twice in an isolated in-memory database.
+The second call raised `AlreadyInWatchlistError`, and the database still
+contained exactly one matching entry. I also ran the full test suite to check
+for regressions.
 
 ## Comment 3 — Missing test
 
