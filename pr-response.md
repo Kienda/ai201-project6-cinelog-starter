@@ -92,9 +92,26 @@ friction without introducing viewer-specific permissions.
 
 **My position:**
 
+I agree with the maintainer that the default should be date-added order, with
+the newest entry first. I replaced alphabetical title ordering with descending
+`WatchlistEntry.date_added` ordering.
+
 **Reasoning:**
 
+A watchlist records a user's recent intention to watch something. Showing the
+newest additions first helps users return to films they just discovered or
+saved. It also matches `get_collection()`, which already returns newest-added
+films first, so CineLog's two personal film lists have a predictable default.
+
 **Engagement with reviewer's point:**
+
+The maintainer's claim that users commonly want to see recent additions fits
+both the purpose of a watchlist and CineLog's established collection behavior.
+Alphabetical order does have an advantage: it is easier to scan for a known
+title in a long list. I do not think that lookup case should control the default,
+because search or a future optional sort parameter can serve it without hiding
+recent activity. Newest-first is therefore the better default, while
+alphabetical ordering remains a reasonable future caller-selected option.
 
 ## Comment 6 — Rebase
 
