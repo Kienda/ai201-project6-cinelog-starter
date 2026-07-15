@@ -35,7 +35,7 @@ def sample_user(app):
 def test_add_to_watchlist_nonexistent_film_raises(app, sample_user):
     """Adding a nonexistent film should raise FilmNotFoundError."""
     with app.app_context():
-        nonexistent_film_id = 999999
+        nonexistent_film_id = "00000000-0000-0000-0000-000000000000"
 
         with pytest.raises(FilmNotFoundError):
             add_to_watchlist(

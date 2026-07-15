@@ -2,8 +2,13 @@
 
 ## AI Usage
 
-<!-- Fill in at the end — explain specifically how AI supported orientation,
-review interpretation, implementation, testing, and argument stress-testing. -->
+I used AI to help orient me to the unfamiliar repository, locate the original
+review after my fork omitted the feature branch, and explain how the existing
+collection service and tests establish CineLog's patterns. I verified those
+explanations against the source code. I also used AI as a devil's advocate for
+Comments 4 and 5. That review prompted me to address the reduced discovery of a
+private default and the weaker title lookup of newest-first ordering explicitly,
+rather than presenting either choice as cost-free.
 
 ## Comment 1 — Rename
 
@@ -58,9 +63,30 @@ full suite.
 
 **My position:**
 
+New watchlist entries should default to private. A user may explicitly make an
+entry public, where public means visible to CineLog's community generally—not
+shared with a specific watcher. Per-viewer permissions are outside the simple
+public/private model and would add access-control complexity that this feature
+does not need.
+
 **Reasoning:**
 
+A watchlist captures viewing intentions, which users may reasonably treat as
+personal until they choose to share them. A private default prevents accidental
+exposure and makes publication an intentional act. This still supports CineLog's
+community focus because users can opt entries into discovery, but it does not
+assume that every saved film is meant for an audience. I changed the model
+default from `public=True` to `public=False` so the implementation matches this
+decision.
+
 **Tradeoff acknowledged:**
+
+Public-by-default would create more recommendations and social discovery with
+less effort from users. Private-by-default may therefore reduce the amount of
+watchlist activity visible to the community, especially if users never change
+the setting. I accept that cost because explicit consent is more important than
+maximizing passive sharing; a clear visibility control can reduce the added
+friction without introducing viewer-specific permissions.
 
 ## Comment 5 — Sort order
 
