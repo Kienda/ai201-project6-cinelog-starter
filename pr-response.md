@@ -178,9 +178,4 @@ viewing intentions and remain consistent with CineLog's collection ordering.
 
 ## Git History Evidence
 
-Run `git log --oneline origin/main..feature/watchlist` after the final history
-rewrite and include the resulting terminal screenshot below before submission.
-
-<!-- Add the screenshot as docs/git-log.png, then replace this comment with:
 ![Conventional commit history with no merge commits](docs/git-log.png)
--->
